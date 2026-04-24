@@ -10,7 +10,6 @@ const News = (props) => {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
-  // document.title = `${capitalizeFirstLetter(props.category)} - NewsDonkey`;
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -34,7 +33,9 @@ const News = (props) => {
 
   useEffect(() => {
     UpdateNews(1);
-  }, [props.country , props.category]);
+    document.title = `${capitalizeFirstLetter(props.category)} - NewsDonkey`;
+    //eslint-disable-next-line
+  }, [props.country , props.category, props.pageSize, props.apiKey]);
   
   const fetchMoreData = async () => {
     const nextPage = page + 1;
@@ -50,7 +51,7 @@ const News = (props) => {
 
   return (
     <div className="container">
-      <h1 className='text-center' style={{ margin: '40px' }}>NewsDonkey - Top Headlines of {capitalizeFirstLetter(props.category)}</h1>
+      <h1 className='text-center' style={{ margin: '40px', marginTop:'90px' }}>NewsDonkey - Top Headlines of {capitalizeFirstLetter(props.category)}</h1>
       {/* {loading && <Spinner/>} */}
       <InfiniteScroll dataLength={articles.length} next={fetchMoreData}
         hasMore={articles.length !== totalResults} loader={<Spinner />}>
