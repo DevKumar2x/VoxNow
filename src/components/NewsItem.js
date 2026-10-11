@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useState } from 'react';
 
-const NewsItem = (props) => {
-  
-  let { title, description, imageUrl, newsUrl , author , date } = props;
-  const fallbackImage = 'https://automatedelectronic.com/wp-content/uploads/2025/02/15-Coolest-Tech-Gadgets-2025-Available-On-Amazon.jpg';
-  const imgSrc = (imageUrl && imageUrl !== 'null') ? imageUrl : fallbackImage;
+const NewsItem = ({ title, description, imageUrl, newsUrl, author, date, source }) => {
+  const [imageFailed, setImageFailed] = useState(false);
+  const publishedDate = date ? new Date(date) : null;
+  const formattedDate = publishedDate && !Number.isNaN(publishedDate.getTime())
+    ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(publishedDate)
+    : '';
+  const hasImage = imageUrl && imageUrl !== 'null' && !imageFailed;
 
   return (
-    <div className='my-2 news-item'>
+    <div className="my-2 news-item">
       <div className="card news-card">
-        <img src={imgSrc} className="card-img-top" alt={title || 'news'} onError={(e)=>{e.target.onerror=null; e.target.src=fallbackImage}} />
+        {hasImage ? (
+          <img
+            src={imageUrl}
+            className="card-img-top"
+            alt={title ? `Article: ${title}` : 'News article'}
+            onError={() => setImageFailed(true)}
+          />
+        ) : (
+          <div className="news-image-placeholder" role="img" aria-label={`Image unavailable${title ? ` for ${title}` : ''}`}>
+            Image unavailable
+          </div>
+        )}
         <div className="card-body">
-          <h5 className="card-title">{title}...</h5>
-          <p className="card-text">{description}...</p>
-          <p className='card-text'><small className='text-muted'>By {author?author:"Unknown"} on {new Date(date).toGMTString()}</small></p>
-          <a href={newsUrl} target='_blank' rel="noreferrer" className="btn btn-sm btn-primary">Read More</a>
+          <h2 className="card-title">{title || 'Untitled article'}</h2>
+          {description && <p className="card-text">{description}</p>}
+          <p className="card-text news-metadata">
+            <small className="text-muted">
+              {source || 'News source'}
+              {author && ` · By ${author}`}
+              {formattedDate && ` · ${formattedDate}`}
+            </small>
+          </p>
+          <a href={newsUrl} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-primary">
+            Read More
+          </a>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default NewsItem

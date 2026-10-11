@@ -1,27 +1,29 @@
-# News-Donkey
+# VoxNow
 
 ## Overview
-News-Donkey is a lightweight React application that displays current top headlines using the NewsAPI. It's built for quick browsing of news by category and country, with simple pagination and a clean UI.
+VoxNow is a lightweight React application that displays current top headlines using the NewsAPI. It's built for quick browsing of news by category and country, with infinite scrolling and a clean editorial UI.
 
 ## Demo
 - Live demo: (add your deployed URL here) ## working on this
 
 ## Features
 - Top headlines by country and category
-- Pagination with next/previous controls
+- Infinite scrolling with duplicate protection and request error handling
 - Responsive layout with article cards
-- Loading spinner while fetching data
+- Loading, empty, and error states
+- Category navigation for general, sports, technology, health, science, business, and entertainment headlines
 
 ## Built With
 - React
 - Bootstrap (for layout & buttons)
+- Express (server-side NewsAPI proxy)
 - NewsAPI (data source)
 
 ## Getting Started
 These instructions will get you a copy of the project running on your local machine for development and testing purposes.
 
 ### Prerequisites
-- Node.js (v14 or newer)
+- Node.js (v18 or newer)
 - npm or yarn
 
 ### Installation
@@ -34,27 +36,27 @@ npm install
 ```
 
 ### Configure API Key
-This project uses NewsAPI. Create a free API key at https://newsapi.org and set it as an environment variable used by the app. Create a `.env` file in the project root with:
+The Express server reads the NewsAPI key from `.env.local` as a server-only variable. Create an API key at https://newsapi.org and add:
 
 ```env
-REACT_APP_NEWS_API_KEY=your_api_key_here
+NEWS_API_KEY=your_api_key_here
 ```
 
-Restart the dev server after adding the key.
+Do not prefix the key with `REACT_APP_`: Create React App embeds variables with that prefix in browser assets. `.env.local` is ignored by Git. If the key was previously exposed in a deployed frontend, rotate it in NewsAPI before using the new server-only variable. For a public deployment, set `NEWS_API_KEY` in the server host's secret/environment settings and route `/api/news` to this Express server. If deployed behind a reverse proxy, set `TRUST_PROXY` to the specific trusted proxy configuration for your host; do not trust arbitrary forwarded headers. Confirm that your NewsAPI plan allows your intended deployment and usage.
 
 ### Run Locally
 
 ```bash
-npm start
+npm run dev
 ```
 
-Open http://localhost:3000 in your browser.
+This starts the React app on http://localhost:3000 and the API server on http://localhost:5000. CRA forwards local `/api` requests to the server.
 
 ## Usage
-The app exposes settings in the UI for navigating pages, selecting news categories, and changing country filters. In the code, the `News` component accepts the following props:
+The navigation currently exposes news categories; the country and page size are configured in `App.js`. The `News` component accepts the following props:
 
 - `country` (string): two-letter country code, default `us`
-- `pageSize` (number): articles per page, default `8`
+- `pageSize` (number): articles per page, default `8` (`App.js` currently requests `9`)
 - `category` (string): news category, default `general`
 
 ## Contributing

@@ -1,14 +1,12 @@
-import React from "react";
-import loading from "./loading.gif"
+import React from 'react';
 
 const Spinner = () => {
-  
   return (
-    <div className='text-center'>
-      <img src={loading} alt="loading" />
+    <div className="news-spinner" role="status" aria-label="Loading news">
+      <span className="news-spinner-dot news-spinner-dot-teal" />
+      <span className="news-spinner-dot news-spinner-dot-pink" />
     </div>
-  )
+  );
+};
 
-}
-
-export default Spinner
+export default Spinner;
