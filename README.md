@@ -4,7 +4,7 @@
 VoxNow is a lightweight React application that displays current top headlines using the NewsAPI. It's built for quick browsing of news by category and country, with infinite scrolling and a clean editorial UI.
 
 ## Demo
-- Live demo: (add your deployed URL here) ## working on this
+- Live demo: (https://vox-now.vercel.app/)
 
 ## Features
 - Top headlines by country and category
