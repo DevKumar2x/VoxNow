@@ -39,7 +39,7 @@ npm install
 The Express server reads the NewsAPI key from `.env.local` as a server-only variable. Create an API key at https://newsapi.org and add:
 
 ```env
-NEWS_API_KEY=your_api_key_here
+NEWS_API_KEY=api_key
 ```
 
 Do not prefix the key with `REACT_APP_`: Create React App embeds variables with that prefix in browser assets. `.env.local` is ignored by Git. If the key was previously exposed in a deployed frontend, rotate it in NewsAPI before using the new server-only variable. For a public deployment, set `NEWS_API_KEY` in the server host's secret/environment settings and route `/api/news` to this Express server. If deployed behind a reverse proxy, set `TRUST_PROXY` to the specific trusted proxy configuration for your host; do not trust arbitrary forwarded headers. Confirm that your NewsAPI plan allows your intended deployment and usage.
